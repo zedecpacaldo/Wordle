@@ -1,5 +1,46 @@
 "use strict";
 var appDiv = document.getElementById('app');
+var alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+function makeGameScreen(chosenWord) {
+    if (appDiv == null)
+        return;
+    var elements = [];
+    var answerBox = document.createElement("input");
+    var staticLetters = document.createElement("div");
+    staticLetters.appendChild(document.createTextNode(alphabet));
+    answerBox.setAttribute("type", "text");
+    elements.push(answerBox);
+    elements.push(staticLetters);
+    appDiv.replaceChildren.apply(appDiv, elements);
+    var attempts = 6;
+    document.addEventListener('keydown', function (event) {
+        if (event.key === "Enter" && document.activeElement === answerBox) {
+            if ((answerBox.value).length == 5) {
+                attempts--;
+                var guesses = document.createElement("div");
+                var guessString = (answerBox.value).toLowerCase();
+                var guess = document.createTextNode(guessString);
+                guesses.appendChild(guess);
+                elements.push(guesses);
+                appDiv.replaceChildren.apply(appDiv, elements);
+                answerBox.value = "";
+                if (guessString == chosenWord) {
+                    alert("You got the word correctly: ".concat(chosenWord));
+                    answerBox.disabled = true;
+                }
+                else if (attempts == 0) {
+                    alert("You ran out of attempts! Correct word is ".concat(chosenWord));
+                    answerBox.disabled = true;
+                    answerBox.value = "";
+                    return;
+                }
+            }
+            else {
+                alert("Input box should have exactly five characters!");
+            }
+        }
+    }, false);
+}
 function makeStartScreen() {
     if (appDiv !== null) {
         var elements = [];
@@ -18,6 +59,7 @@ function makeStartScreen() {
                     var parsed = (xhr_1.response).split('\n');
                     var word = parsed[Math.floor(Math.random() * parsed.length)];
                     console.log(word);
+                    makeGameScreen(word);
                 };
                 xhr_1.send();
             }
