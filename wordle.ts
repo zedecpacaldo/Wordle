@@ -1,7 +1,16 @@
 "use strict";
 
 const appDiv = document.getElementById('app');
-const alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+const alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+
+function includes(basis: string, letter: string) {
+    for(var i = 0; i < basis.length; i++) {
+        if(letter === basis[i]) {
+            return true;
+        }
+    }
+    return false;
+}
 
 function makeGameScreen(chosenWord: string) {
     if (appDiv == null) return;
@@ -26,9 +35,32 @@ function makeGameScreen(chosenWord: string) {
                 attempts--;
                 
                 var guesses = document.createElement("div");
-                var guessString = (answerBox.value).toLowerCase()
-                const guess = document.createTextNode(guessString);
-                guesses.appendChild(guess);
+                var guessString = (answerBox.value).toLowerCase();
+                
+                let entry: HTMLElement[] = [];
+
+                for(let i = 0; i < guessString.length; i++) {
+                    var letter = guessString[i];
+                    var guess = document.createElement("letter");
+                    if(includes(chosenWord, letter)){
+                        if(chosenWord[i] == letter) {
+                            guess.textContent = letter;
+                            guess.classList.add('correct');
+                        }
+                        else 
+                        {
+                            guess.textContent = letter;
+                            guess.classList.add('misplaced');
+                        }
+                    }
+                    else
+                    {
+                        guess.textContent = letter;
+                    }
+                    entry.push(guess);
+                }
+
+                guesses.replaceChildren(...entry);
 
                 elements.push(guesses);
                 appDiv.replaceChildren(...elements);

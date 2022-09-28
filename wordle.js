@@ -1,6 +1,14 @@
 "use strict";
 var appDiv = document.getElementById('app');
 var alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+function includes(basis, letter) {
+    for (var i = 0; i < basis.length; i++) {
+        if (letter === basis[i]) {
+            return true;
+        }
+    }
+    return false;
+}
 function makeGameScreen(chosenWord) {
     if (appDiv == null)
         return;
@@ -19,8 +27,27 @@ function makeGameScreen(chosenWord) {
                 attempts--;
                 var guesses = document.createElement("div");
                 var guessString = (answerBox.value).toLowerCase();
-                var guess = document.createTextNode(guessString);
-                guesses.appendChild(guess);
+                var entry = [];
+                // const guess = document.createTextNode(guessString);
+                for (var i = 0; i < guessString.length; i++) {
+                    var letter = guessString[i];
+                    var guess = document.createElement("letter");
+                    if (includes(chosenWord, letter)) {
+                        if (chosenWord[i] == letter) {
+                            guess.textContent = letter;
+                            guess.classList.add('correct');
+                        }
+                        else {
+                            guess.textContent = letter;
+                            guess.classList.add('misplaced');
+                        }
+                    }
+                    else {
+                        guess.textContent = letter;
+                    }
+                    entry.push(guess);
+                }
+                guesses.replaceChildren.apply(guesses, entry);
                 elements.push(guesses);
                 appDiv.replaceChildren.apply(appDiv, elements);
                 answerBox.value = "";
