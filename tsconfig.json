@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "strict": true,
+      "target": "ESNext",
+      "lib": ["ESNext"],
+      "moduleResolution": "NodeNext",
+      "skipLibCheck": true,
+      "types": ["google-apps-script"]
+    }
+  }

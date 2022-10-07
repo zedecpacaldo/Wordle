@@ -28,7 +28,6 @@ function makeGameScreen(chosenWord) {
                 var guesses = document.createElement("div");
                 var guessString = (answerBox.value).toLowerCase();
                 var entry = [];
-                // const guess = document.createTextNode(guessString);
                 for (var i = 0; i < guessString.length; i++) {
                     var letter = guessString[i];
                     var guess = document.createElement("letter");
